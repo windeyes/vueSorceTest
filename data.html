@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root">
+    <div>
+      <p>{{name}}</p>
+    </div>
+    <div>
+      <p>{{age}}</p>
+    </div>
+  </div>
+</body>
+<script>
+  let dBrace = /\{\{(.*?)\}\}/
+  let root = document.getElementById('root')
+  data = {
+    name:'中国',
+    age:3000
+  }
+  let cloneRoot = root.cloneNode(true)
+  compiler(cloneRoot)
+  function compiler(el){
+    let childrens = el.childNodes
+    for(let i = 0;i < childrens.length;i++){
+      if(childrens[i].nodeType === 3){
+        childrens[i].nodeValue = childrens[i].nodeValue.replace(dBrace,(_a,_b)=>{
+          return data[_b.trim()]
+        })
+      }
+      if(childrens[i].childNodes){
+        compiler(childrens[i])
+      }
+    }
+  }
+  root.parentNode.replaceChild(cloneRoot,root)
+</script>
+</html>
