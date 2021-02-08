@@ -13,6 +13,11 @@
     <div>
       <p>{{age}}</p>
     </div>
+    <div>
+      <div>
+        <p>{{building.wall}}</p>
+      </div>
+    </div>
   </div>
 </body>
 <script src="./compiler.js"></script>
@@ -34,7 +39,11 @@
     el:'#root',
     data:{
       name:'中国',
-      age:3000
+      age:3000,
+      building:{
+        wall:'长城',
+        house:'故宫'
+      }
     }
   })
 </script>
