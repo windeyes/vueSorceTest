@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root">
+    <div>
+      <p>{{name}}</p>
+    </div>
+    <div>
+      <p>{{age}}</p>
+    </div>
+  </div>
+</body>
+<script src="./compiler.js"></script>
+<script>
+  function MyVue(option){
+     // 习惯: 内部的数据使用下划线 开头, 只读数据使用 $ 开头
+    this._el = option.el
+    this._data = option.data
+    this.$root = document.querySelector(this._el)
+    this.render()
+  }
+  MyVue.prototype.render = function(){
+    let cloneRoot = this.$root.cloneNode(true)
+    compiler(cloneRoot,this._data)
+    this.$root.parentNode.replaceChild(cloneRoot,this.$root)
+  }
+
+  let app = new MyVue({
+    el:'#root',
+    data:{
+      name:'中国',
+      age:3000
+    }
+  })
+</script>
+</html>
