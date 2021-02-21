@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root">
+    <div class="boxOne">
+      <div>
+        <ul>
+          <li>goggo</li>
+          <li>yeyeyey</li>
+        </ul>
+      </div>
+    </div>
+    <div class="boxTwo">
+      happy NewYear !!
+    </div>
+  </div>
+</body>
+<script>
+  class VNode{
+    constructor(tag,data,value,type){
+      this.tag=tag;
+      this.data=data;
+      this.value=value;
+      this.type=type;
+      this.children = []
+    }
+    appendChild(node){
+      this.children.push(node);
+    }
+  }
+  function getNode(node){
+    let type = node.nodeType;
+    let vnode = null;
+    let tagName = node.tagName;
+    let arrt = node.attributes;
+    let nodeValue = node.nodeValue
+    if(type === 1){
+      vnode = new VNode(tagName,arrt,undefined,type)
+      let children = node.childNodes
+      if(children){
+        for(let i = 0;i<children.length;i++){
+          vnode.appendChild(getNode(children[i]))
+        }
+      }
+    }else if(type === 3){//文本节点
+      vnode = new VNode(undefined,undefined,nodeValue,type)
+    }
+    return vnode
+  }
+  let root = document.querySelector('#root');
+  let _vnode = getNode(root)
+  console.log(_vnode);
+</script>
+</html>
